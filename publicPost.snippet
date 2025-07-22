@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>publicPost</Title>
+      <Shortcut>publicPost</Shortcut>
+      <Description>public IHttpActionResult Post 的代码片段</Description>
+      <Author>Microsoft Corporation</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+        <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>expression</ID>
+          <ToolTip>异常类型</ToolTip>
+          <Function>SimpleTypeName(global::System.Exception)</Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[/// <summary>
+        /// 默认Post方法
+        /// </summary>
+        /// <param name="data">传入参数</param>
+        /// <returns></returns>
+        [HttpPost,Route("api/Post")]
+     public IHttpActionResult Post(dynamic data)
+     {
+      BaseResult result = new BaseResult();
+				try 
+				{	        
+					$selected$
+				}
+				catch ($expression$ ex)
+				{
+					 result.code = (int)Const.c_code.抛出异常;
+					 result.message = Const.c_code.抛出异常.ToString();
+           Log.CreateLog(Log.LOG_ERROR, loginerBase.UserName, "methodname",  ex.Message);
+				}
+				return Json(result,serializerSettings,Encoding.UTF8);
+      }$end$]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

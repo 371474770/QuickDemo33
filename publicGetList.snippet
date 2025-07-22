@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>publicGetList</Title>
+			<Shortcut>publicGetList</Shortcut>
+			<Description>public IHttpActionResult GetList 的代码片段</Description>
+			<Author>Microsoft Corporation</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+				<SnippetType>SurroundsWith</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+      <Declarations>
+        <Literal>
+          <ID>expression</ID>
+          <ToolTip>异常类型</ToolTip>
+          <Function>SimpleTypeName(global::System.Exception)</Function>
+        </Literal>
+      </Declarations>
+	  <Code Language="csharp">
+      <![CDATA[ ///<summary>
+        /// 默认GetList方法
+        /// </summary>
+        /// <returns></returns>
+     [Route("api/XXXX/GetList")]
+     public IHttpActionResult GetList()
+     {
+         BaseResultList<dynamic> result = new BaseResultList<dynamic>();
+				try 
+				{	        
+					result.data = dbDepot.XXXX.ToList<dynamic>();
+				}
+				catch ($expression$ ex)
+				{
+					 result.code = (int)Const.c_code.抛出异常;
+					 result.message = Const.c_code.抛出异常.ToString();
+           Log.CreateLog(Log.LOG_ERROR, loginerBase.UserName, "api/XXXX/GetList",  ex.Message);
+				}
+				return Json(result,serializerSettings,Encoding.UTF8);
+      }$end$]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

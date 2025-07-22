@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>publicPagedCore</Title>
+      <Shortcut>publicPagedCore</Shortcut>
+      <Description>public IHttpActionResult Paged 的代码片段</Description>
+      <Author>Microsoft Corporation</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+        <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>expression</ID>
+          <ToolTip>异常类型</ToolTip>
+          <Function>SimpleTypeName(global::System.Exception)</Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[/// <summary>
+        /// 默认分页
+        /// </summary>
+        /// <param name="pageIndex">当前页</param>
+        /// <param name="pageSize">每页条数</param>
+        /// <returns></returns>
+        [HttpPost, Route("GetPaged")]
+        public IActionResult GetPaged([FromBody] dynamic data)
+        {
+                   BaseResultTotal<dynamic> result = new BaseResultTotal<dynamic>();
+                    try 
+				    {	    
+                       data = JsonConvert.DeserializeObject(Convert.ToString(data));		
+                       int pageIndex = data.PageIndex;
+                       int pageSize = data.PageSize;					   
+					   var query = _context.xxxx;
+                       result.totalcount = query.Count();
+                       result.data = query.OrderBy(x => x.ID).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList<dynamic>();
+				    }
+				    catch ($expression$ ex)
+				    {
+					     result.code = (int)Const.c_code.抛出异常;
+					     result.message = Const.c_code.抛出异常.ToString();
+                         Log.CreateLog(Log.LOG_ERROR, _getuserdata.UserName, "GetPaged",  ex.Message);
+				    }
+				    return Ok(result);
+        }$end$]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

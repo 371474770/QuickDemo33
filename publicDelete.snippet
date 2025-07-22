@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>publicDelete</Title>
+      <Shortcut>publicDelete</Shortcut>
+      <Description>public IHttpActionResult Post 的代码片段</Description>
+      <Author>Microsoft Corporation</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+        <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>expression</ID>
+          <ToolTip>异常类型</ToolTip>
+          <Function>SimpleTypeName(global::System.Exception)</Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[/// <summary>
+        /// 默认删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete,Route("api/Delete/{id}")]
+         public IHttpActionResult Delete(int id)
+         {
+          BaseResult result = new BaseResult();
+				    try 
+				    {	        
+					      if (!dbDepot.xxxx.Any(x => x.ID == id))
+                {
+                    result.code = (int)Const.c_code.参数错误;
+                    result.message = "没有此记录，不能删除";
+                }
+                else
+                {
+                    xxxx dny = new xxxx { ID = id };
+                    dbDepot.Entry(dny).State = EntityState.Deleted;
+                    dbDepot.SaveChanges();
+                }
+				    }
+				    catch ($expression$ ex)
+				    {
+					     result.code = (int)Const.c_code.抛出异常;
+					     result.message = Const.c_code.抛出异常.ToString();
+               Log.CreateLog(Log.LOG_ERROR, loginerBase.UserName, "methodname",  ex.Message);
+				    }
+				    return Json(result);
+          }$end$]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

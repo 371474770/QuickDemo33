@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>publicBatchDelete</Title>
+      <Shortcut>publicBatchDelete</Shortcut>
+      <Description>public IHttpActionResult BatchDelete 的代码片段</Description>
+      <Author>Microsoft Corporation</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+        <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>expression</ID>
+          <ToolTip>异常类型</ToolTip>
+          <Function>SimpleTypeName(global::System.Exception)</Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[/// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <param name="BatchId"></param>
+        /// <returns></returns>
+        [HttpDelete, Route("api/XXXX/Delete")]
+        public IHttpActionResult Delete(List<int> BatchId)
+        {
+            BaseResult result = new BaseResult();
+            try
+            {
+                if (BatchId.Any())
+                {
+                    foreach (int id in BatchId)
+                    {
+                        XXXX model = dbDepot.XXXX.Find(id);
+                        if (model != null)
+                        {
+
+                            model.Deleted = BaseConsts.已删除;
+                            dbDepot.Entry(model).State = EntityState.Modified;
+
+                        }
+                    }
+                    dbDepot.SaveChanges();
+                }
+                else
+                {
+
+                    result.code = (int)Const.c_code.参数错误;
+                    result.message = Const.c_code.参数错误.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.code = (int)Const.c_code.抛出异常;
+                result.message = Const.c_code.抛出异常.ToString();
+                Log.CreateLog(Log.LOG_ERROR, loginerBase.UserName, "api/XXXX/Delete", ex.Message);
+            }
+
+            return Json(result);
+        }$end$]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
